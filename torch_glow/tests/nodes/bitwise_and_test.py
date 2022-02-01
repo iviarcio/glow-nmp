@@ -25,8 +25,7 @@ class SimpleBitwiseAndModule(torch.nn.Module):
 
     def forward(self, a, b):
         c = torch.bitwise_and(a, b)
-        d = torch.bitwise_and(a, c)
-        return d
+        return torch.bitwise_and(a, c)
 
 
 class TestBitwiseAnd(utils.TorchGlowTestCase):

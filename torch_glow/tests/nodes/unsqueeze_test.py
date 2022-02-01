@@ -25,11 +25,10 @@ class SimpleUnsqueezeModel(torch.nn.Module):
         self.inplace = inplace
 
     def forward(self, tensor):
-        if self.inplace:
-            other = tensor + tensor
-            return other.unsqueeze_(self.dimension)
-        else:
+        if not self.inplace:
             return torch.unsqueeze(tensor + tensor, self.dimension)
+        other = tensor + tensor
+        return other.unsqueeze_(self.dimension)
 
 
 class TestUnsqueeze(utils.TorchGlowTestCase):

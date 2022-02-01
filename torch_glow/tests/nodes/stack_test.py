@@ -32,7 +32,7 @@ class TestStack(utils.TorchGlowTestCase):
     def test_stack_basic(self):
         """Basic test of the PyTorch aten::stack Node on Glow."""
 
-        for d in range(0, 4):
+        for d in range(4):
             utils.compare_tracing_methods(
                 SimpleStackModel(d),
                 torch.randn(2, 3, 4),
@@ -46,7 +46,7 @@ class TestStack(utils.TorchGlowTestCase):
         x = torch.randn(2, 3, 4)
         y = torch.randn(2, 3, 4, dtype=torch.half)
 
-        for d in range(0, 4):
+        for d in range(4):
             utils.compare_tracing_methods(
                 SimpleStackModel(d),
                 x,

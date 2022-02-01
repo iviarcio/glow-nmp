@@ -36,8 +36,7 @@ class SimpleIntModule(torch.nn.Module):
         d = bt + ct
         d = d.to(torch.int32)
         i = torch.ops.aten.Int(d)
-        res = torch.ops.prim.NumToTensor(i)
-        return res
+        return torch.ops.prim.NumToTensor(i)
 
     def _int64_forward(self, a):
         b = a.size(0)
@@ -46,8 +45,7 @@ class SimpleIntModule(torch.nn.Module):
         ct = torch.ops.prim.NumToTensor(c)
         d = bt * ct
         i = torch.ops.aten.Int(d)
-        res = torch.ops.prim.NumToTensor(i)
-        return res
+        return torch.ops.prim.NumToTensor(i)
 
 
 class SimpleIntModuleEmptyShape(torch.nn.Module):
@@ -57,8 +55,7 @@ class SimpleIntModuleEmptyShape(torch.nn.Module):
     def forward(self, a):
         d = torch._shape_as_tensor(a)[0]  # tensor with empty shape
         i = torch.ops.aten.Int(d)
-        res = torch.ops.prim.NumToTensor(i)
-        return res
+        return torch.ops.prim.NumToTensor(i)
 
 
 class TestInt(utils.TorchGlowTestCase):

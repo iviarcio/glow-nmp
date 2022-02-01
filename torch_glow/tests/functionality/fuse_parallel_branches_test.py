@@ -29,8 +29,7 @@ class TestFuseParallelBranches(utils.TorchGlowTestCase):
             a = x + y
             branch1 = a + x
             branch2 = a + y
-            res = (branch1, branch2)
-            return res
+            return branch1, branch2
 
         inputs = (torch.randn(2, 4), torch.randn(2, 4))
         traced = torch.jit.trace(test_fuser, inputs)
@@ -66,8 +65,7 @@ class TestFuseParallelBranches(utils.TorchGlowTestCase):
             y = y + y
             branch1 = x + x
             branch2 = y + y
-            res = (branch1, branch2)
-            return res
+            return branch1, branch2
 
         inputs = (torch.randn(2, 4), torch.randn(2, 4))
         traced = torch.jit.trace(test_fuser, inputs)

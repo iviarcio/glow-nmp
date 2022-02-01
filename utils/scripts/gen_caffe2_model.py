@@ -30,14 +30,14 @@ op = caffe2_pb2.OperatorDef()
 op.type = "GivenTensorFill"
 op.output.extend(["conv_w"])
 op.arg.extend([utils.MakeArgument("shape", [1, 1, 2, 2])])
-op.arg.extend([utils.MakeArgument("values", [1.0 for i in range(4)])])
+op.arg.extend([utils.MakeArgument("values", [1.0 for _ in range(4)])])
 weights.op.extend([op])
 
 op = caffe2_pb2.OperatorDef()
 op.type = "GivenTensorFill"
 op.output.extend(["conv_b"])
 op.arg.extend([utils.MakeArgument("shape", [1])])
-op.arg.extend([utils.MakeArgument("values", [2.0 for i in range(1)])])
+op.arg.extend([utils.MakeArgument("values", [2.0 for _ in range(1)])])
 weights.op.extend([op])
 weights.external_output.extend(op.output)
 

@@ -41,7 +41,7 @@ def generate_rois(roi_counts, im_dims):
             np.maximum(rois[:, 2], rois[:, 4]),
         )
         all_rois.append(rois)
-    if len(all_rois) > 0:
+    if all_rois:
         return np.vstack(all_rois)
     return np.empty((0, 5)).astype(np.float32)
 

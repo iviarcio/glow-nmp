@@ -13,8 +13,7 @@ def foo(a, b):
     c = a.mul(b)
     a = c.mul(c)
     a = c.mul(a)
-    d = c.div(a)
-    return d
+    return c.div(a)
 
 
 print("original jit ir")

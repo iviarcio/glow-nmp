@@ -118,7 +118,7 @@ class TestRoiAlignRotated(utils.TorchGlowTestCase):
     )
     def test_roi_align_rotated(self, _, module, features, horizontal=False):
         order = module.kwargs.get("order")
-        kwargs = {k: v for k, v in zip(order, features.size())}
+        kwargs = dict(zip(order, features.size()))
         kwargs.pop("C")
         rois = rand_rotated_rois(count=250, horizontal=horizontal, **kwargs)
         utils.compare_tracing_methods(

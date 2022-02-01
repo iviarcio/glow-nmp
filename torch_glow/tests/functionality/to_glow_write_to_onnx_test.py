@@ -19,8 +19,7 @@ class Foo(torch.nn.Module):
     def forward(self, x):
         x = self.conv1(x)
         x = self.relu(x)
-        y = self.conv2(x)
-        return y
+        return self.conv2(x)
 
 
 class Bar(torch.nn.Module):
@@ -29,8 +28,7 @@ class Bar(torch.nn.Module):
         self.foo = foo
 
     def forward(self, x):
-        y = self.foo(x)
-        return y
+        return self.foo(x)
 
 
 class Baz(torch.nn.Module):
@@ -50,8 +48,7 @@ def create_model(x, ModType):
     torch.ao.quantization.prepare(foo, inplace=True)
     foo(x)
     torch.ao.quantization.convert(foo, inplace=True)
-    model = ModType(foo)
-    return model
+    return ModType(foo)
 
 
 class TestToGlowWriteToOnnx(utils.TorchGlowTestCase):

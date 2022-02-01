@@ -9,6 +9,5 @@ def pytest_addoption(parser):
 
 
 def pytest_sessionstart(session):
-    backend = session.config.getoption("--backend")
-    if backend:
+    if backend := session.config.getoption("--backend"):
         torch_glow.setGlowBackend(backend)

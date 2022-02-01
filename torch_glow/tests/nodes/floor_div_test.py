@@ -26,10 +26,7 @@ class SimpleFloorDivideModule(torch.nn.Module):
     def forward(self, a, b):
         if b.size() == torch.Size([]):
             b = b.item()
-        if self.inplace:
-            return (a + a).floor_divide_(b)
-        else:
-            return (a + a).floor_divide(b)
+        return (a + a).floor_divide_(b) if self.inplace else (a + a).floor_divide(b)
 
 
 class TestFloorDiv(utils.TorchGlowTestCase):

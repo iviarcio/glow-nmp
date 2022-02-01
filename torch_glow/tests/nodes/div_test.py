@@ -27,18 +27,10 @@ class SimpleDivModule(torch.nn.Module):
 
     def forward(self, a, b):
         rounding_mode = self.rounding_mode
-        if True:  # until 3rd agr is implemented, then: rounding_mode is None:
-            if b.size() == torch.Size([]):
-                return (a * a).div(b.item())
-            else:
-                c = a.div(b)
-                return c.div(c)
-        else:
-            if b.size() == torch.Size([]):
-                return (a * a).div(b.item(), rounding_mode=rounding_mode)
-            else:
-                c = a.div(b, rounding_mode=rounding_mode)
-                return c.div(c, rounding_mode=rounding_mode)
+        if b.size() == torch.Size([]):
+            return (a * a).div(b.item())
+        c = a.div(b)
+        return c.div(c)
 
 
 class TestDiv(utils.TorchGlowTestCase):

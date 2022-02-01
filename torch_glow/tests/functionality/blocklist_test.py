@@ -51,8 +51,7 @@ class TestBlockList(utils.TorchGlowTestCase):
             x5 = x4 / a
             x6 = x5 / b
             x7 = x6 * a
-            x8 = x7 * b
-            return x8
+            return x7 * b
 
         torch_glow.enableFusionPass_DO_NOT_USE_THIS()
         torch_glow.setFusionStartIndex(3)

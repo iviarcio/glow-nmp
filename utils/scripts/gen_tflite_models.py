@@ -76,7 +76,7 @@ def save_model(model, filename):
         model_inputs_array.append(model.inputs[idx].op.name)
 
     # Get model outputs.
-    model_outputs_dict = dict()
+    model_outputs_dict = {}
     model_outputs_array = []
     for idx in range(len(model.outputs)):
         if idx == 0:

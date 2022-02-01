@@ -166,7 +166,6 @@ def set_submodule(mod, path, submod):
     for item in path[:-1]:
         found_mod = getattr(found_mod, item)
     setattr(found_mod, path[-1], submod)
-    pass
 
 
 def get_submod_inputs(

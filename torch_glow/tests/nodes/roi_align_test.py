@@ -93,7 +93,7 @@ class TestRoiAlign(utils.TorchGlowTestCase):
     )
     def test_roi_align(self, _, module, features):
         order = module.kwargs.get("order")
-        kwargs = {k: v for k, v in zip(order, features.size())}
+        kwargs = dict(zip(order, features.size()))
         kwargs.pop("C")
         rois = rand_rois(count=250, **kwargs)
         utils.compare_tracing_methods(

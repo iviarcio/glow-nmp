@@ -138,8 +138,7 @@ def AddMLPModel(model, data):
             use_cudnn=False,
         )
         layer = model.net.Relu(layer, "relu_{}".format(i), use_cudnn=False)
-    softmax = model.net.Softmax(layer, "softmax", use_cudnn=False)
-    return softmax
+    return model.net.Softmax(layer, "softmax", use_cudnn=False)
 
 
 def AddLeNetModel(model, data):
@@ -170,8 +169,7 @@ def AddLeNetModel(model, data):
     fc3 = brew.fc(model, pool2, "fc3", dim_in=50 * 4 * 4, dim_out=500, use_cudnn=False)
     fc3 = model.net.Relu(fc3, "relu3", use_cudnn=False)
     pred = brew.fc(model, fc3, "pred", 500, 10, use_cudnn=False)
-    softmax = model.net.Softmax(pred, "softmax", use_cudnn=False)
-    return softmax
+    return model.net.Softmax(pred, "softmax", use_cudnn=False)
 
 
 def AddModel(model, data):
@@ -183,8 +181,7 @@ def AddModel(model, data):
 
 def AddAccuracy(model, softmax, label):
     """Adds an accuracy op to the model"""
-    accuracy = model.Accuracy([softmax, label], "accuracy", use_cudnn=False)
-    return accuracy
+    return model.Accuracy([softmax, label], "accuracy", use_cudnn=False)
 
 
 def AddTrainingOperators(model, softmax, label):

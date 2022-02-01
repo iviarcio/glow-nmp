@@ -131,15 +131,13 @@ def get_img_paths_and_labels(validation_images_dir):
     # for that image.
     img_paths = []
     img_labels = []
-    curr_label_idx = 0
-    for img_subdir in img_subdirs:
+    for curr_label_idx, img_subdir in enumerate(img_subdirs):
         img_subdir_path = os.path.join(validation_images_dir, img_subdir)
         for img in os.listdir(img_subdir_path):
             full_img_path = os.path.join(img_subdir_path, img)
             if os.path.isfile(full_img_path):
                 img_paths.append(full_img_path)
                 img_labels.append(curr_label_idx)
-        curr_label_idx = curr_label_idx + 1
     return img_paths, img_labels
 
 

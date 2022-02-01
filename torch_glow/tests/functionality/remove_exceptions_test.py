@@ -11,11 +11,10 @@ def foo(x):
     y = x.dim()
     if y == 1:
         return x
+    if x == 2:
+        return x * 2
     else:
-        if x == 2:
-            return x * 2
-        else:
-            raise RuntimeError("hi")
+        raise RuntimeError("hi")
 
 
 class TestRemoveException(utils.TorchGlowTestCase):

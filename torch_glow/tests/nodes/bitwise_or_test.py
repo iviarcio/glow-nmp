@@ -25,8 +25,7 @@ class SimpleBitwiseOrModule(torch.nn.Module):
 
     def forward(self, a, b):
         c = torch.bitwise_or(a, b)
-        d = torch.bitwise_or(a, c)
-        return d
+        return torch.bitwise_or(a, c)
 
 
 class TestBitwiseOr(utils.TorchGlowTestCase):

@@ -46,8 +46,7 @@ def gen_mfcc_onnx_test_model(
     input_length = window_size + (window_count - 1) * stride
     fft_length = int(2 ** np.ceil(np.log2(window_size)))
     input_shape = [1, input_length]
-    spectrogram_length = int(fft_length / 2 + 1)
-    spectrogram_shape = [window_count, spectrogram_length]
+    spectrogram_shape = [window_count, int(fft_length / 2 + 1)]
     coefficients_shape = [window_count, dct_coefficient_count]
 
     # Generate random input data.
@@ -103,35 +102,28 @@ def gen_mfcc_onnx_test_model(
         outputs=["coefficients_err"],
     )
 
-    # --------------------------------------------- GRAPH DEFINITION  --------------------------------------------------
-    graph_input = list()
-    graph_init = list()
-    graph_output = list()
-
-    # Graph inputs.
-    graph_input.append(
+    graph_input = [
         helper.make_tensor_value_info(
             "spectrogram", TensorProto.FLOAT, spectrogram_shape
         )
-    )
+    ]
+
     graph_input.append(
         helper.make_tensor_value_info(
             "coefficients_ref", TensorProto.FLOAT, coefficients_shape
         )
     )
 
-    # Graph initializers.
-    graph_init.append(make_init("spectrogram", TensorProto.FLOAT, spectrogram))
+    graph_init = [make_init("spectrogram", TensorProto.FLOAT, spectrogram)]
     graph_init.append(
         make_init("coefficients_ref", TensorProto.FLOAT, coefficients_ref)
     )
 
-    # Graph outputs.
-    graph_output.append(
+    graph_output = [
         helper.make_tensor_value_info(
             "coefficients_err", TensorProto.FLOAT, coefficients_shape
         )
-    )
+    ]
 
     # Graph name.
     graph_name = "mfcc_test"

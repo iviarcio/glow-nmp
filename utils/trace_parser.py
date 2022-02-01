@@ -119,7 +119,7 @@ def loadEvents(filename, runtimeEvents, fixedEvent, skip):
             elif evtype == "B":
                 partialEvents[name] = Event(name, start, end, optype)
             elif evtype == "E":
-                if not name in partialEvents:
+                if name not in partialEvents:
                     # This is a bug in Glow tracing, but ignore for now.
                     continue
                 ev = partialEvents[name]
@@ -165,11 +165,16 @@ def dumpAccumulate(events, keyfunc, traceTime):
         name = keyfunc(ev)
         nameMap[name].append(ev.selfTime())
 
-    layers = []
-    for (name, times) in nameMap.items():
-        layers.append(
-            (name, len(times), numpy.mean(times), numpy.std(times), numpy.sum(times))
+    layers = [
+        (
+            name,
+            len(times),
+            numpy.mean(times),
+            numpy.std(times),
+            numpy.sum(times),
         )
+        for (name, times) in nameMap.items()
+    ]
 
     # Iterate sorted by total time.
     for (name, num, mean, stddev, total) in sorted(
@@ -220,10 +225,7 @@ def main():
     # Ensure events are sorted by startTime.
     stacked = sorted(stacked, key=attrgetter("start"))
     totalTime = stacked[-1].end - stacked[0].start
-    coveredTime = 0
-    for ev in stacked:
-        coveredTime += ev.end - ev.start
-
+    coveredTime = sum(ev.end - ev.start for ev in stacked)
     if args.layers:
         dumpAccumulate(events, lambda ev: f"{ev.name} ({ev.optype})", coveredTime)
 
