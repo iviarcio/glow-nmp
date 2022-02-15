@@ -556,7 +556,21 @@ chooseQuantizationParams(TensorProfilingParams profParams, Schema schema,
 
   // For SymmetricWithPower2Scale, round scale to nearest higher power of 2.
   if (schema == quantization::Schema::SymmetricWithPower2Scale) {
-    scale = std::exp2(std::ceil(std::log2(scale)));
+    // Commented by Marcio M Pereira (github.com/ivarcio)
+    // This strikes me as a bug in the Glow quantization process.
+    // I am adjusting the scale to be within the limits of the type to be
+    // quantized. For 16 bits, for example, the q-point cannot be greater
+    // than 15, since I need to take the sign bit into account.
+    int aux = std::ceil(std::log2(scale));
+    if (qTy == ElemKind::Int16QTy) {
+      if (aux <= -16) aux = -15;
+    }
+    else if (qTy == ElemKind::Int8QTy) {
+      if (aux <= -8) aux = -7;
+    }
+    scale = std::exp2(aux);
+    // Original version commented:
+    /* scale = std::exp2(std::ceil(std::log2(scale))); */
   }
 
   TensorQuantizationParams result{static_cast<float>(scale), nudgedZeroPoint};

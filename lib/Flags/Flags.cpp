@@ -158,6 +158,7 @@ namespace runtime {
 namespace flags {
 
 unsigned CPUMemory = 0;
+unsigned NMPMemory = 0;
 unsigned HabanaMemory = 7 << 20;
 unsigned NNPIMemory = 16 << 20;
 unsigned NNPITimeoutMs = 0;
