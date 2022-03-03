@@ -253,6 +253,14 @@ void libjit_convDKKC8_foreach_xy_pixels_filter(
 } // namespace
 
 extern "C" {
+void libjit_convMO436_f(float *outW, const float *inW, const float *filterW,
+                        const float *biasW, const dim_t *outWdims,
+                        const dim_t *inWdims, const dim_t *filterWdims,
+                        const dim_t *biasWdims, const dim_t *kernelSizes,
+                        const dim_t *strides, const dim_t *pads) {
+
+}
+
 void libjit_convDKKC8_f(float *outW, const float *inW, const float *filterW,
                         const float *biasW, const dim_t *outWdims,
                         const dim_t *inWdims, const dim_t *filterWdims,

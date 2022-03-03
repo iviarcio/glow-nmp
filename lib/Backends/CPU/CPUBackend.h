@@ -21,6 +21,7 @@
 #include "glow/Backend/Backend.h"
 #include "glow/Base/Tensor.h"
 #include "glow/LLVMIRCodeGen/LLVMBackend.h"
+#include "glow/LLVMIRCodeGen/CommandLine.h"
 
 #include "llvm/ADT/ArrayRef.h"
 #include "llvm/IR/IRBuilder.h"

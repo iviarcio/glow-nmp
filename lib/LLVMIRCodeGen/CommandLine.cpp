@@ -125,3 +125,10 @@ llvm::cl::list<std::string> bundleObjectsOpt(
                    "should be archived into the bundle. The object files are "
                    "pre registered during Glow build. "),
     llvm::cl::CommaSeparated, llvm::cl::ZeroOrMore);
+
+llvm::cl::opt<bool> useMO436Features(
+    "MO436-features",
+    llvm::cl::desc("Disable fusing activations into Convolutions"
+                   " & use MO436-specific Convolution in CPU Backend."),
+    llvm::cl::Optional, llvm::cl::init(false), llvm::cl::cat(getLLVMBackendCat()));
+

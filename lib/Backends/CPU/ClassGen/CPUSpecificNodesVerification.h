@@ -30,4 +30,8 @@ bool CPUConvDKKC8Node::verify() const {
   return expectCompareTrue("Invalid output dimensions", exp, odim, this);
 }
 
+bool CPUConvMO436Node::verify() const {
+  return true;
+}
+
 #endif // GLOW_WITH_CPU

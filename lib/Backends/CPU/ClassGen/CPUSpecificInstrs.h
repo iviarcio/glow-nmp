@@ -34,6 +34,16 @@ BB.newBackendSpecificInstr("CPUConvDKKC8")
     .addMember(MemberType::Unsigned, "Group")
     .autoIRGen();
 
+BB.newBackendSpecificInstr("CPUConvMO436")
+    .addOperand("Dest", OperandKind::Out)
+    .addOperand("Src", OperandKind::In)
+    .addOperand("Filter", OperandKind::In)
+    .addOperand("Bias", OperandKind::In)
+    .addMember(MemberType::VectorUnsigned, "Kernels")
+    .addMember(MemberType::VectorUnsigned, "Strides")
+    .addMember(MemberType::VectorUnsigned, "Pads")
+    .autoIRGen();
+
 BB.includeBackendSpecificVerification("glow/CPUSpecificInstrsVerification.h");
 
 #endif // GLOW_WITH_CPU

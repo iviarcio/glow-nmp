@@ -62,6 +62,9 @@ bool CPUBackend::isOpSupported(const NodeInfo &NI) const {
   case Kinded::Kind::CPUConvDKKC8NodeKind:
     return NI.allInputsAndOutputsHaveSameElemKind({ElemKind::FloatTy});
 
+  case Kinded::Kind::CPUConvMO436NodeKind:
+    return NI.allInputsAndOutputsHaveSameElemKind({ElemKind::FloatTy});
+
   // Delegate everything else to the LLVM backend.
   default:
     return LLVMBackend::isOpSupported(NI);
@@ -87,6 +90,11 @@ bool CPUBackend::supportsFusedActivation(Node *parent, Node *activation) const {
   // ChannelwiseQuantizedConvolution.
   if (!llvm::isa<ConvolutionNode>(parent) &&
       !llvm::isa<ChannelwiseQuantizedConvolutionNode>(parent)) {
+    return false;
+  }
+
+  // MO436 does not support fusing activations into Convolution
+  if (llvm::isa<ConvolutionNode>(parent) && useMO436Features) {
     return false;
   }
 

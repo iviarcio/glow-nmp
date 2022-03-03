@@ -33,4 +33,13 @@ void CPUConvDKKC8Inst::verify() const {
          "Invalid Element Type");
 }
 
+void CPUConvMO436Inst::verify() const {
+  assert(getDest()->getElementType() == getSrc()->getElementType() &&
+         "Invalid Element Type");
+  assert(getDest()->getElementType() == getFilter()->getElementType() &&
+         "Invalid Element Type");
+  assert(getDest()->getElementType() == getBias()->getElementType() &&
+         "Invalid Element Type");
+}
+
 #endif // GLOW_WITH_CPU

@@ -83,4 +83,7 @@ extern llvm::cl::opt<bool> bundleAPIVerbose;
 /// Option to add other external object files to the bundle.
 extern llvm::cl::list<std::string> bundleObjectsOpt;
 
+/// Option to use Conv & details for MO436
+extern llvm::cl::opt<bool> useMO436Features;
+
 #endif // GLOW_LLVMIRCODEGEN_COMMANDLINE_H
