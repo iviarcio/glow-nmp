@@ -160,10 +160,11 @@ CPUBackend::transformPostLowering(Function *F, CompilationContext &,
     if (auto *CN = dyn_cast<ConvolutionNode>(&node)) {
       if (useMO436Features) {
         // Try to replace generic convolution with MO436 version.
-        auto *NC = convertConvToMO436Conv(CN, F);
-        CN->getResult().replaceAllUsesOfWith(NC);
-        changed = true;
-        continue;
+        if (Node *NC = convertConvToMO436Conv(CN, F)) {
+          CN->getResult().replaceAllUsesOfWith(NC);
+          changed = true;
+          continue;
+        }
       } else {
         // Try to replace generic convolution with cpu-optimized version.
         if (Node *NCN = optimizeCPUConv(CN, F)) {
