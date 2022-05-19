@@ -259,6 +259,43 @@ void libjit_convMO436_f(float *outW, const float *inW, const float *filterW,
                         const dim_t *biasWdims, const dim_t *kernelSizes,
                         const dim_t *strides, const dim_t *pads) {
 
+  dim_t pad_t = pads[0];
+  dim_t pad_l = pads[1];
+  dim_t stride_h = strides[0];
+  dim_t stride_w = strides[1];
+  dim_t kernel_h = kernelSizes[0];
+  dim_t kernel_w = kernelSizes[1];
+
+  // For each input in the batch:
+  for (dim_t n = 0; n < inWdims[0]; n++) {
+    libjit_conv_init_output_with_bias(n, outW, biasW, outWdims, biasWdims);
+    for (size_t filter = 0; filter < filterWdims[0]; filter++) {
+      for (size_t outx = 0; outx < outWdims[1]; outx++) {
+        for (size_t outy = 0; outy < outWdims[2]; outy++) {
+          float temp = 0.;
+          for (size_t ch = 0; ch < inWdims[3]; ch++) {
+            for (size_t fx = 0; fx < kernel_h; fx++) {
+              for (size_t fy = 0; fy < kernel_w; fy++) {
+                auto inX = outx * stride_h - pad_t + fx;
+                auto inY = outy * stride_w - pad_l + fy;
+                // ignore if indexes are out of boundaries
+                if (inX < 0 || inY < 0 || inX >= (sdim_t)inWdims[1] ||
+                    inY >= (sdim_t)inWdims[2]) {
+                  continue;
+                }
+                auto inIdx = libjit_getXYZW(inWdims, n, inX, inY, ch);
+                auto filterIdx =
+                    libjit_getXYZW(filterWdims, filter, fx, fy, ch);
+                temp += inW[inIdx] * filterW[filterIdx];
+              }
+            }
+          }
+          auto outIdx = libjit_getXYZW(outWdims, n, outx, outy, filter);
+          outW[outIdx] = outW[outIdx] + temp;
+        } // Output Width
+      }   // Output Height
+    }     // Filters
+  }       // Input
 }
 
 void libjit_convDKKC8_f(float *outW, const float *inW, const float *filterW,
