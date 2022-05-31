@@ -132,3 +132,8 @@ llvm::cl::opt<bool> useMO436Features(
                    " & use MO436-specific Convolution in CPU Backend."),
     llvm::cl::Optional, llvm::cl::init(false), llvm::cl::cat(getLLVMBackendCat()));
 
+llvm::cl::opt<bool> useBLASLibrary(
+    "BLAS-library",
+    llvm::cl::desc("Use BLAS Library to compute MO436-specific Convolutions."),
+    llvm::cl::Optional, llvm::cl::init(false), llvm::cl::cat(getLLVMBackendCat()));
+

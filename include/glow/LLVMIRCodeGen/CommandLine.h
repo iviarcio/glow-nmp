@@ -85,5 +85,6 @@ extern llvm::cl::list<std::string> bundleObjectsOpt;
 
 /// Option to use Conv & details for MO436
 extern llvm::cl::opt<bool> useMO436Features;
+extern llvm::cl::opt<bool> useBLASLibrary;
 
 #endif // GLOW_LLVMIRCODEGEN_COMMANDLINE_H

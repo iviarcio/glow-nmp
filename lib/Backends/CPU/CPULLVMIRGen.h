@@ -17,6 +17,7 @@
 #define GLOW_BACKENDS_CPU_CPULLVMIRGEN_H
 
 #include "glow/LLVMIRCodeGen/LLVMIRGen.h"
+#include "glow/LLVMIRCodeGen/CommandLine.h"
 
 namespace glow {
 

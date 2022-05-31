@@ -67,7 +67,7 @@ void CPULLVMIRGen::generateLLVMIRForInstr(llvm::IRBuilder<> &builder,
     auto *strides = emitConstDimTArray(builder, CI->getStrides());
     auto *pads = emitConstDimTArray(builder, CI->getPads());
 
-    const char *kernelName = "convMO436";
+    const char *kernelName = (useBLASLibrary) ? "convBLAS" : " convMO436";
     auto *F = getFunction(kernelName, dest->getElementType());
 
     createCall(builder, F,
