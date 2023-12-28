@@ -60,8 +60,7 @@ class TestQuantizedBatchNorm2D(utils.TorchGlowTestCase):
                 qx = self.q(x)
                 qy = self.batchnorm(qx)
                 qy = self.relu(qy)
-                y = self.dq(qy)
-                return y
+                return self.dq(qy)
 
         C = 7
         in_scale = 0.102
@@ -125,8 +124,7 @@ class TestQuantizedBatchNorm2D(utils.TorchGlowTestCase):
             def forward(self, x):
                 qx = self.q(x)
                 qy = self.batchnorm(qx)
-                y = self.dq(qy)
-                return y
+                return self.dq(qy)
 
         C = 11
         in_scale = 0.234

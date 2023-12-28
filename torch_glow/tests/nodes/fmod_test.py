@@ -24,10 +24,7 @@ class SimpleFmodModule(torch.nn.Module):
         super(SimpleFmodModule, self).__init__()
 
     def forward(self, a, b):
-        if b.size() == torch.Size([]):
-            c = a.fmod(b.item())
-        else:
-            c = a.fmod(b)
+        c = a.fmod(b.item()) if b.size() == torch.Size([]) else a.fmod(b)
         return c.fmod(torch.tensor(1.0, dtype=c.dtype))
 
 

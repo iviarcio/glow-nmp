@@ -31,8 +31,7 @@ class TestEmbedding(utils.TorchGlowTestCase):
             def forward(self, indices):
                 weight = torch.FloatTensor([[1, 2.3, 3], [4, 5.1, 6.3], [3.3, -4, 5.7]])
                 embedding = torch.nn.Embedding.from_pretrained(weight)
-                a = embedding(indices)
-                return a
+                return embedding(indices)
 
         indices = torch.LongTensor([1, 0, 2, 0, 1])
 
@@ -52,8 +51,7 @@ class TestEmbedding(utils.TorchGlowTestCase):
             def forward(self, indices):
                 weight = torch.HalfTensor([[1, 2.3, 3], [4, 5.1, 6.3], [3.3, -4, 5.7]])
                 embedding = torch.nn.Embedding.from_pretrained(weight)
-                a = embedding(indices)
-                return a
+                return embedding(indices)
 
         indices = torch.LongTensor([1, 0, 2, 0, 1])
 
@@ -73,8 +71,7 @@ class TestEmbedding(utils.TorchGlowTestCase):
             def forward(self, indices):
                 weight = torch.FloatTensor([[1, 2.3, 3], [4, 5.1, 6.3], [3.3, -4, 5.7]])
                 embedding = torch.nn.Embedding.from_pretrained(weight)
-                a = embedding(indices)
-                return a
+                return embedding(indices)
 
         indices = torch.LongTensor([[1, 2], [0, 1]])
 
@@ -94,8 +91,7 @@ class TestEmbedding(utils.TorchGlowTestCase):
             def forward(self, indices):
                 weight = torch.FloatTensor([[1, 2.3, 3], [4, 5.1, 6.3], [3.3, -4, 5.7]])
                 embedding = torch.nn.Embedding.from_pretrained(weight)
-                a = embedding(indices)
-                return a
+                return embedding(indices)
 
         indices = torch.LongTensor([[[1, 2], [0, 1]]])
 

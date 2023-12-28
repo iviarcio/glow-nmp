@@ -25,12 +25,8 @@ class SimpleSigmoidModel(torch.nn.Module):
         self.inplace = inplace
 
     def forward(self, tensor):
-        if self.inplace:
-            other = tensor + tensor
-            return other.sigmoid_()
-        else:
-            other = tensor + tensor
-            return other.sigmoid()
+        other = tensor + tensor
+        return other.sigmoid_() if self.inplace else other.sigmoid()
 
 
 class TestSigmoid(utils.TorchGlowTestCase):

@@ -78,10 +78,7 @@ class DottyPrinter:
     def get_color(self, isDirectTrans: bool) -> str:
         """Returns the color for the given node."""
 
-        if isDirectTrans:
-            return "Yellow2"
-        else:
-            return "AliceBlue"
+        return "Yellow2" if isDirectTrans else "AliceBlue"
 
     def dump_label(self, tran: Transformation) -> str:
         """Returns the string for the label of the given transformation."""
@@ -91,7 +88,7 @@ class DottyPrinter:
         )
         for rstr in tran.removedNodes_:
             labelStr += rf"""{rstr}\l\l"""
-        labelStr += rf"}}| {{NEW OPERAND CHAIN:\l\l"
+        labelStr += '}| {NEW OPERAND CHAIN:\\l\\l'
         for astr in tran.addedNodes_:
             labelStr += rf"""{astr}\l\l"""
         labelStr += rf"}} |{{USER NODE: \l\l {tran.baseNode_}}} }}"
@@ -265,11 +262,7 @@ def filter_node_transformation(
             if nodeName == processOutDottyName(rn):
                 return True
 
-        for an in tran.addedNodes_:
-            if nodeName == processOutDottyName(an):
-                return True
-
-        return False
+        return any(nodeName == processOutDottyName(an) for an in tran.addedNodes_)
 
     for tran in TRANS_LIST:
         if not verbose:
@@ -349,8 +342,8 @@ def stat_phases_summary(conn: sqlite3.Connection, startPhase: int, endPhase: int
 
         summaryStrs[scope_id] += f"\t {opr}D {num} {kind} nodes.\n"
 
-    for sid in summaryStrs:
-        print(summaryStrs[sid])
+    for sid, value in summaryStrs.items():
+        print(value)
 
 
 def stat_phase(conn: sqlite3.Connection, phaseId: int):
@@ -398,7 +391,7 @@ def process():
 
     assert options.db_file, "Please specify db file."
     with init_db(options.db_file) as conn:
-        dottyFile = options.dotty_file if options.dotty_file else "dotty"
+        dottyFile = options.dotty_file or "dotty"
         if options.filter_target:
             filter_node_transformation(options.filter_target, conn, False, dottyFile)
 

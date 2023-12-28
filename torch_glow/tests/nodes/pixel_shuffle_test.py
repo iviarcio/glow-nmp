@@ -34,7 +34,7 @@ class TestPixelShuffle(utils.TorchGlowTestCase):
     def test_pixel_shuffle(self):
         """Test of the PyTorch pixel_shuffle Node on Glow."""
 
-        for _ in range(0, 20):
+        for _ in range(20):
             c = random.randint(1, 3)
             r = random.randint(2, 5)
             w = random.randint(1, 100)

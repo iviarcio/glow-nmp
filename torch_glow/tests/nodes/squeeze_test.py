@@ -25,17 +25,18 @@ class SimpleSqueezeModel(torch.nn.Module):
         self.inplace = inplace
 
     def forward(self, tensor):
-        if self.inplace:
-            tensor = tensor + tensor
-            if self.dimension:
-                return tensor.squeeze_(self.dimension)
-            else:
-                return tensor.squeeze_()
+        if not self.inplace:
+            return (
+                torch.squeeze(tensor + tensor, self.dimension)
+                if self.dimension
+                else torch.squeeze(tensor + tensor)
+            )
+
+        tensor = tensor + tensor
+        if self.dimension:
+            return tensor.squeeze_(self.dimension)
         else:
-            if self.dimension:
-                return torch.squeeze(tensor + tensor, self.dimension)
-            else:
-                return torch.squeeze(tensor + tensor)
+            return tensor.squeeze_()
 
 
 class TestSqueeze(utils.TorchGlowTestCase):

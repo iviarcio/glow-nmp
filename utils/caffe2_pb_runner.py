@@ -128,9 +128,9 @@ transposed_image = np.zeros(
         model_props[MODEL].image_size,
     )
 ).astype(np.float32)
-for w in range(0, model_props[MODEL].image_size):
-    for h in range(0, model_props[MODEL].image_size):
-        for c in range(0, model_props[MODEL].num_color_channels):
+for w in range(model_props[MODEL].image_size):
+    for h in range(model_props[MODEL].image_size):
+        for c in range(model_props[MODEL].num_color_channels):
             # WHC -> CWH, RGB -> BGR
             transposed_image[0][model_props[MODEL].num_color_channels - c - 1][w][
                 h
@@ -156,7 +156,7 @@ print("The blobs in the workspace after FeedBlob: {}".format(workspace.Blobs()))
 p = workspace.Predictor(init_net, predict_net)
 
 start = time.time()
-for i in range(0, args.iterations):
+for _ in range(args.iterations):
     results = p.run([final_image])
 end = time.time()
 if args.time:

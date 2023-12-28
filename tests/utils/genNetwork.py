@@ -32,7 +32,7 @@ op = caffe2_pb2.OperatorDef()
 op.type = "GivenTensorFill"
 op.output.extend(["fc_w"])
 op.arg.extend([utils.MakeArgument("shape", [1, 4])])
-op.arg.extend([utils.MakeArgument("values", [1.0 for i in range(4)])])
+op.arg.extend([utils.MakeArgument("values", [1.0 for _ in range(4)])])
 weights.op.extend([op])
 weights.external_output.extend(op.output)
 
@@ -40,7 +40,7 @@ op = caffe2_pb2.OperatorDef()
 op.type = "GivenTensorFill"
 op.output.extend(["fc_b"])
 op.arg.extend([utils.MakeArgument("shape", [1, 4])])
-op.arg.extend([utils.MakeArgument("values", [1.0 for i in range(4)])])
+op.arg.extend([utils.MakeArgument("values", [1.0 for _ in range(4)])])
 weights.op.extend([op])
 weights.external_output.extend(op.output)
 

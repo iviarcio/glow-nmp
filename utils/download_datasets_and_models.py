@@ -54,14 +54,11 @@ def handle_mnist(filename, dest_path):
         training_set, _, _ = pickle_load(file)
         data, labels = training_set
 
-        images_file = open(os.path.join(dest_path, "mnist_images.bin"), "wb")
-        data.tofile(images_file)
-        images_file.close()
-
-        labels_file = open(os.path.join(dest_path, "mnist_labels.bin"), "wb")
-        L = array.array("B", labels)
-        L.tofile(labels_file)
-        labels_file.close()
+        with open(os.path.join(dest_path, "mnist_images.bin"), "wb") as images_file:
+            data.tofile(images_file)
+        with open(os.path.join(dest_path, "mnist_labels.bin"), "wb") as labels_file:
+            L = array.array("B", labels)
+            L.tofile(labels_file)
 
 
 def untar(filename, dest_path, member=None):

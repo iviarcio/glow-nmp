@@ -44,11 +44,10 @@ class SelectModule(torch.nn.Module):
                     return (a + a)[:, :, self.indices[0]]
                 else:
                     return (a + a)[:, self.indices[0], self.indices[1]]
+            elif len(self.indices) == 2:
+                return (a + a)[self.indices[0], :, self.indices[1]]
             else:
-                if len(self.indices) == 2:
-                    return (a + a)[self.indices[0], :, self.indices[1]]
-                else:
-                    return (a + a)[self.indices[0], self.indices[1], self.indices[2]]
+                return (a + a)[self.indices[0], self.indices[1], self.indices[2]]
 
 
 class TestComplexSelect(utils.TorchGlowTestCase):

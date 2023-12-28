@@ -98,9 +98,8 @@ def assert_equivalent(
         diff = torch.eq(result1, result2)
         if torch.all(diff):
             return True
-        else:
-            error = f"Diff:{diff}\n"
-            raise AssertionError(error)
+        error = f"Diff:{diff}\n"
+        raise AssertionError(error)
     else:
         matches = (
             torch.equal(result1, result2)
@@ -109,13 +108,12 @@ def assert_equivalent(
         )
         if matches:
             return True
-        else:
-            diff = torch.abs(result1 - result2)
-            error = f"{result1_name} result:\n{result1}\n"
-            error += f"{result2_name} result:\n{result2}\n"
-            error += f"Diff:\n{diff}\n"
-            error += f"Max diff:\n{torch.max(diff)}"
-            raise AssertionError(error)
+        diff = torch.abs(result1 - result2)
+        error = f"{result1_name} result:\n{result1}\n"
+        error += f"{result2_name} result:\n{result2}\n"
+        error += f"Diff:\n{diff}\n"
+        error += f"Max diff:\n{torch.max(diff)}"
+        raise AssertionError(error)
 
 
 # To avoid linter complaining about allocating default value

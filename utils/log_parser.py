@@ -186,10 +186,9 @@ class DottyPrinter:
     def dump_label(self, node: Node) -> str:
         """Returns the string for the label of the given node."""
 
-        labelStr = f"""{{ {{<Inputs>Inputs}}|
+        return f"""{{ {{<Inputs>Inputs}}|
                     {{ {node.get_kind_name()}\lname: {node.get_name()} }}|
                     {{<Outputs>Outputs}} }}"""
-        return labelStr
 
     def get_color(self, node: Node) -> str:
         """Returns the color for the given node."""
@@ -252,16 +251,8 @@ def parse_args() -> Tuple[str, str, List[str]]:
     parser.add_argument("--dump-phases", nargs="+")
     options = parser.parse_args()
 
-    if options.dump_phases:
-        dumpPhases = options.dump_phases
-    else:
-        dumpPhases = []
-
-    if options.db_file:
-        dbFile = options.db_file
-    else:
-        dbFile = "compilation_log_db.sqlite"
-
+    dumpPhases = options.dump_phases or []
+    dbFile = options.db_file or "compilation_log_db.sqlite"
     return dbFile, options.log_file, dumpPhases
 
 
@@ -507,16 +498,15 @@ def process(log: Dict, dumpPhases: List[str], conn: sqlite3.Connection) -> None:
         newNode.add_user(changedNode)
 
         # Record nodes transformation
-        if recordTransformation:
-            if prevNode.has_no_uses():
-                replacedNodes = find_all_replaced_nodes(prevNode)
-                store_transformation_into_DB(
-                    transID, changedNode, addedNodes, replacedNodes, cursor, scopeName
-                )
+        if recordTransformation and prevNode.has_no_uses():
+            replacedNodes = find_all_replaced_nodes(prevNode)
+            store_transformation_into_DB(
+                transID, changedNode, addedNodes, replacedNodes, cursor, scopeName
+            )
 
-                transID += 1
-                addedNodes = []
-                replacedNodes = []
+            transID += 1
+            addedNodes = []
+            replacedNodes = []
 
     def process_scope(scopeName: str, phase: List) -> None:
         global scopeID

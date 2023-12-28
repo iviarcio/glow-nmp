@@ -64,9 +64,7 @@ def run_to_glow(m, x):
 
     compilation_group.input_sets_append([input_spec])
 
-    lowered_module = torch_glow.to_glow(traced_m, spec)
-
-    return lowered_module
+    return torch_glow.to_glow(traced_m, spec)
 
 
 class TestConvToGlow(utils.TorchGlowTestCase):

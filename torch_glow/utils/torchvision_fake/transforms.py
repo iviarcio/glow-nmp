@@ -44,20 +44,18 @@ def resize(img, size, interpolation=Image.BILINEAR):
     if not (isinstance(size, int) or (isinstance(size, Iterable) and len(size) == 2)):
         raise TypeError("Got inappropriate size arg: {}".format(size))
 
-    if isinstance(size, int):
-        w, h = img.size
-        if (w <= h and w == size) or (h <= w and h == size):
-            return img
-        if w < h:
-            ow = size
-            oh = int(size * h / w)
-            return img.resize((ow, oh), interpolation)
-        else:
-            oh = size
-            ow = int(size * w / h)
-            return img.resize((ow, oh), interpolation)
-    else:
+    if not isinstance(size, int):
         return img.resize(size[::-1], interpolation)
+    w, h = img.size
+    if (w <= h and w == size) or (h <= w and h == size):
+        return img
+    if w < h:
+        ow = size
+        oh = int(size * h / w)
+    else:
+        oh = size
+        ow = int(size * w / h)
+    return img.resize((ow, oh), interpolation)
 
 
 def center_crop(img, output_size):
@@ -100,11 +98,7 @@ def to_tensor(pic):
 
         img = torch.from_numpy(pic.transpose((2, 0, 1)))
         # backward compatibility
-        if isinstance(img, torch.ByteTensor):
-            return img.float().div(255)
-        else:
-            return img
-
+        return img.float().div(255) if isinstance(img, torch.ByteTensor) else img
     if accimage is not None and isinstance(pic, accimage.Image):
         nppic = np.zeros([pic.channels, pic.height, pic.width], dtype=np.float32)
         pic.copyto(nppic)
@@ -122,20 +116,17 @@ def to_tensor(pic):
     else:
         img = torch.ByteTensor(torch.ByteStorage.from_buffer(pic.tobytes()))
     # PIL image mode: L, LA, P, I, F, RGB, YCbCr, RGBA, CMYK
-    if pic.mode == "YCbCr":
-        nchannel = 3
-    elif pic.mode == "I;16":
+    if pic.mode == "I;16":
         nchannel = 1
+    elif pic.mode == "YCbCr":
+        nchannel = 3
     else:
         nchannel = len(pic.mode)
     img = img.view(pic.size[1], pic.size[0], nchannel)
     # put it from HWC to CHW format
     # yikes, this transpose takes 80% of the loading time/CPU
     img = img.transpose(0, 1).transpose(0, 2).contiguous()
-    if isinstance(img, torch.ByteTensor):
-        return img.float().div(255)
-    else:
-        return img
+    return img.float().div(255) if isinstance(img, torch.ByteTensor) else img
 
 
 def normalize(tensor, mean, std, inplace=False):

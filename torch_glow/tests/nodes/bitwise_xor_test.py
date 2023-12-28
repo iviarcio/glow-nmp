@@ -25,8 +25,7 @@ class SimpleBitwiseXorModule(torch.nn.Module):
 
     def forward(self, a, b):
         c = torch.bitwise_xor(a, b)
-        d = torch.bitwise_xor(a, c)
-        return d
+        return torch.bitwise_xor(a, c)
 
 
 class TestBitwiseXor(utils.TorchGlowTestCase):

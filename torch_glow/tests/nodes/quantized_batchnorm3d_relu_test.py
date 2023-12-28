@@ -56,8 +56,7 @@ class TestQuantizedBatchNorm3DRelu(utils.TorchGlowTestCase):
                 qx = self.q(x)
                 qy = self.bn(qx)
                 qy_relu = self.relu(qy)
-                y = self.dq(qy_relu)
-                return y
+                return self.dq(qy_relu)
 
         C = 4
         weight = torch.ones(C) + torch.rand(C) * 0.001

@@ -24,12 +24,11 @@ class SimpleMaskedFillModule(torch.nn.Module):
         self.inplace = inplace
 
     def forward(self, tensor, mask):
-        if self.inplace:
-            other = tensor + tensor
-            other.masked_fill_(mask, 42.0)
-            return other
-        else:
+        if not self.inplace:
             return torch.masked_fill(tensor + tensor, mask, 42.0)
+        other = tensor + tensor
+        other.masked_fill_(mask, 42.0)
+        return other
 
 
 class TestMaskedFill(utils.TorchGlowTestCase):

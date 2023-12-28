@@ -25,9 +25,8 @@ class SimpleRsubModel(torch.nn.Module):
     def forward(self, tensor, other):
         if other.size() == torch.Size([]):
             return torch.rsub((tensor * tensor), other.item())
-        else:
-            third = torch.rsub(tensor, other)
-            return torch.rsub(third, third)
+        third = torch.rsub(tensor, other)
+        return torch.rsub(third, third)
 
 
 class TestRsub(utils.TorchGlowTestCase):

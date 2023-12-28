@@ -38,8 +38,7 @@ def gen_spectrogram_onnx_test_model(
     input_length = window_size + (window_count - 1) * stride
     fft_length = int(2 ** np.ceil(np.log2(window_size)))
     input_shape = [1, input_length]
-    spectrogram_length = int(fft_length / 2 + 1)
-    spectrogram_shape = [window_count, spectrogram_length]
+    spectrogram_shape = [window_count, int(fft_length / 2 + 1)]
 
     # Generate random input data.
     np.random.seed(1)
@@ -82,31 +81,24 @@ def gen_spectrogram_onnx_test_model(
         outputs=["spectrogram_err"],
     )
 
-    # --------------------------------------------- GRAPH DEFINITION  --------------------------------------------------
-    graph_input = list()
-    graph_init = list()
-    graph_output = list()
-
-    # Graph inputs.
-    graph_input.append(
+    graph_input = [
         helper.make_tensor_value_info("input", TensorProto.FLOAT, input_shape)
-    )
+    ]
+
     graph_input.append(
         helper.make_tensor_value_info(
             "spectrogram_ref", TensorProto.FLOAT, spectrogram_shape
         )
     )
 
-    # Graph initializers.
-    graph_init.append(make_init("input", TensorProto.FLOAT, input_data))
+    graph_init = [make_init("input", TensorProto.FLOAT, input_data)]
     graph_init.append(make_init("spectrogram_ref", TensorProto.FLOAT, spectrogram_ref))
 
-    # Graph outputs.
-    graph_output.append(
+    graph_output = [
         helper.make_tensor_value_info(
             "spectrogram_err", TensorProto.FLOAT, spectrogram_shape
         )
-    )
+    ]
 
     # Graph name.
     graph_name = "audio_spectrogram_test"

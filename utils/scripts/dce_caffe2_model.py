@@ -79,10 +79,11 @@ def dce(init_net, predict_net):
             live_predict_net_op_inputs.add(input_tensor)
 
     # Find the set of used external_inputs.
-    live_predict_net_external_inputs = set()
-    for external_input in predict_net.external_input:
-        if external_input in live_predict_net_op_inputs:
-            live_predict_net_external_inputs.add(external_input)
+    live_predict_net_external_inputs = {
+        external_input
+        for external_input in predict_net.external_input
+        if external_input in live_predict_net_op_inputs
+    }
 
     # Delete unused external_inputs in predict_net.
     num_predict_net_inputs_eliminated = len(predict_net.external_input) - len(
@@ -127,10 +128,11 @@ def dce(init_net, predict_net):
         for output_tensor in op.output:
             live_init_net_op_outputs.add(output_tensor)
 
-    live_init_net_external_outputs = set()
-    for output_tensor in init_net.external_output:
-        if output_tensor in live_init_net_op_outputs:
-            live_init_net_external_outputs.add(output_tensor)
+    live_init_net_external_outputs = {
+        output_tensor
+        for output_tensor in init_net.external_output
+        if output_tensor in live_init_net_op_outputs
+    }
 
     del init_net.external_output[:]
     init_net.external_output.extend(live_init_net_external_outputs)

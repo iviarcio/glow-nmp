@@ -25,9 +25,8 @@ class SimpleSubtractModel(torch.nn.Module):
     def forward(self, a, b):
         if b.size() == torch.Size([]):
             return (a * a).sub(b.item())
-        else:
-            c = a.sub(b)
-            return c.sub(c)
+        c = a.sub(b)
+        return c.sub(c)
 
 
 class TestSub(utils.TorchGlowTestCase):

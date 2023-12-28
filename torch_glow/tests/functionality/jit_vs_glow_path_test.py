@@ -38,8 +38,7 @@ class TestJITVsGlowPath(utils.TorchGlowTestCase):
 
         class TestModule(torch.nn.Module):
             def forward(self, a, b):
-                c = a + b
-                return c
+                return a + b
 
         a = torch.randn(5, 6).to(dtype=torch.int32)
         b = torch.randn(5, 6).to(dtype=torch.int32)
